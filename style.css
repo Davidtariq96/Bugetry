@@ -1,0 +1,202 @@
+*,*::after, *::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --expense: #EB4D4D;
+    --income: rgb(46, 141, 87) ;
+}
+body{
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+
+.top{
+    background-image:linear-gradient(rgba(62,20,20,0.4),rgba(62, 20 , 20 , 0.4)), url(./background1.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #fff;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    
+}
+.budget-title{
+    font-size: 1.5rem;
+}
+
+.budget-value{
+    font-size: 2.5rem;
+    margin: 0.5rem 0.5rem;
+}
+.income-expense{
+    max-width: 330px;
+    min-width: 100px;
+    margin: 0 auto;
+}
+.income-wrapper{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: 1rem 0.1rem;
+    background: var(--income);
+}
+.income-text,.expenses-text{
+    margin-left: 1rem;
+}
+
+.expenses-wrapper{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: 1rem 0.1rem;
+    background: var(--expense);
+}
+.expenses-percentage{
+    font-size: 10px;
+    width: 30px;
+    padding: 0.3rem 0.2rem;
+    margin-left: 0.8rem;
+    background: rgb(204, 169, 169);
+    border-radius: 1px 1px 1px 1px;
+}
+.income-percentage{
+    font-size: 10px;
+    width: 30px;
+    padding: 0.3rem 0.2rem;
+    margin-left: 0.8rem;
+    background: transparent;
+    border-radius: 1px 1px 1px 1px;
+}
+.sub-expense,.sub-income{
+    display: flex;
+    justify-content: space-around;
+}
+.add{
+    background: rgb(235, 235, 235);
+    padding: 0.3rem 0;
+}
+.add-container{
+    margin: 0.5rem;
+    position: relative;
+}
+input,select{
+    border: none;
+    padding: 0.8rem;
+    border-radius: 2px 2px 2px 2px;
+}
+.add-description:focus{
+    outline:2px solid var(--income);
+    border-radius: 2px 2px 2px 2px ;
+}
+.value{
+    width: 100px;
+    margin-left: 0.5rem;
+}
+select{
+    margin-right: 0.4rem;
+}
+
+.btn-add,.del{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.checkmark{
+    font-size: 30px;
+    color: var(--expense);
+    position: absolute;
+    top: 8px;
+    margin-left: 1rem;
+}
+.flex-items{
+    display: flex;
+    max-width: 1000px;
+    min-width: 100px;
+    margin: 2rem auto;
+    justify-content: space-between;
+    align-content: center;
+
+}
+.bottom-income{
+    width: 50%;
+}
+.bottom-expense{
+    width: 50%;
+    margin-left: 1rem;
+}
+.bottom-income h2,.bottom-expense h2{
+    float: left;
+    margin-left: 0.5rem;
+    margin-bottom: 1rem;
+}
+.bottom-income h2{
+    color: var(--income);
+}
+.bottom-expense h2{
+    color: var(--expense);
+}
+.income-heroText-1,.income-heroText-2,.expense-heroText-1,.expense-heroText-2{
+    clear: left;
+    margin-top: 1rem;
+}
+.income-heroText-1,.income-heroText-2,.expense-heroText-1,.expense-heroText-2{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0.5rem;
+    transition: translate;
+}
+.income-heroText-1,.expense-heroText-1{
+    border-top: 1px solid rgb(212, 207, 207);
+    padding: 0.5rem;
+    transition: transform 1.1s;
+}
+.income-heroText-2,.expense-heroText-2{
+    background: rgb(224, 222, 222);
+    padding: 0.7rem;
+    border-top: 1px solid rgb(212, 207, 207);;
+    border-bottom: 1px solid rgb(212, 207, 207);;
+    margin-top: -0.4rem;
+}
+
+.income-heroText-2,.expense-heroText-2{
+    transition: transform 1.1s;
+}
+
+.income-heroText-1:hover,.expense-heroText-1:hover,.income-heroText-2:hover,.expense-heroText-2:hover {
+    transform: scale(1.1);
+}
+.clear-right,.clear-right-ex{
+    display: flex;
+    justify-content: space-between;
+}
+.clear-right-value{
+    margin-right: 0.5rem;
+    color: var(--income);
+    font-weight: normal;
+}
+
+.clear-right-value1{
+    color: var(--expense);
+}
+.expenses-percentage-1{
+    color: var(--expense);
+    background: #cca5a5;
+    font-size: 10px;
+    font-weight: bolder;
+    margin-left: 0.3rem;
+    margin-right: 0.2rem;
+    padding: 0.2rem;
+    border-radius: 1px 1px 1px 1px;
+}
+.del-btn{
+    color: var(--expense);
+    font-size: 15px;
+    cursor: pointer;
+}
+.del-btn-1{
+    color: var(--income);
+    cursor: pointer;
+}
