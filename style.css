@@ -200,3 +200,15 @@ select{
     color: var(--income);
     cursor: pointer;
 }
+
+@media (max-width: 400px){
+    .flex-items{
+        flex-direction: column;
+    }
+    .bottom-expense h2,.expense-heroText-1{
+        margin-left: -0.5rem;
+    }
+    .checkmark{
+        top: 55px;
+    }
+}
