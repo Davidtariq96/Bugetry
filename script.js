@@ -7,7 +7,20 @@ let budgetControla = (function (){
         this.id = id;
         this.description = description;
         this.value = value;
-    }
+        this.percentage = -1;
+    };
+    Expense.prototype.calpercent = function (totalIncome){
+        if(totalIncome > 0){
+          this.percentage = Math.round((this.value / totalIncome) * 100)
+        }else {
+            this.percentage = -1;
+        }
+        
+    };
+    Expense.prototype.getPercent = function () {
+        return this.percentage;
+    };
+
     let Income = function (id, description, value ){
         this.id = id;
         this.description = description;
@@ -88,6 +101,19 @@ let budgetControla = (function (){
             }
         },
 
+        calPercentages: function (){
+            data.allItems.exp.forEach(function(current) {
+                current.calpercent (data.total.inc);
+            })
+        },
+
+        getPercentages: function () {
+            let allPercent = data.allItems.exp.map(function(current){
+                return current.getPercent()
+            })
+            return allPercent;
+        },
+
         getBudget : function () {
             return{
                 budget : data.budget,
@@ -123,7 +149,8 @@ let UiControla = (function(){
         incomeLabel : '.income-value',
         expenseLabel : '.expenses-value',
         percentageLabel : '.expenses-percentage',
-        container: '.flex-items'
+        container: '.flex-items',
+        expensePerLabel : '.expenses-percentage-1'
     }
     return {
         getInput: function () {
@@ -186,6 +213,23 @@ let UiControla = (function(){
                 document.querySelector(DOMstrings.percentageLabel).textContent = "---"
             }
         },
+        displayPercentages: function(percentage){
+            let fields = document.querySelectorAll(DOMstrings.expensePerLabel);
+
+            nodeListForEach = function (list, callback){
+                for( i = 0; i < list.length; i++){
+                    callback(list[i], i)
+                }
+            };
+
+            nodeListForEach (fields, function (current, index){
+                if(percentage [index]> 0 ){
+                    current.textContent = percentage[index] + '%';
+                }else{
+                    current.textContent = "---";
+                }
+            });
+        },
 
         getDOMstrings: function (){
             return DOMstrings;
@@ -198,7 +242,7 @@ let UiControla = (function(){
 
 
 
-// A Third Module to link the TWO modules together APP-CONTROLA
+// A Third Module to link the TWO modules together GLOBAL APP-CONTROLA
 let appControla = (function(budgetCtrl,UiCtrl){
 
     let setEventListeners = function () {
@@ -224,6 +268,16 @@ let appControla = (function(budgetCtrl,UiCtrl){
         // 3. Display the budget on the UI
         UiCtrl.displayBudget(budget)
         // console.log(budget)
+    };
+
+    let updatePercentages = function () {
+        // 1. Calculate the %
+            budgetControla.calPercentages()
+        // 2. Read the %
+            let percentage = budgetControla.getPercentages();
+        // 3. Display the % on the UI
+        // console.log(percentages)
+        UiCtrl.displayPercentages(percentage)
     }
 
     let ctrlAddItem = function () {
@@ -237,11 +291,14 @@ let appControla = (function(budgetCtrl,UiCtrl){
             // 3. Add the item to the UI 
             UiCtrl.addItemList(newItem, input.type);
 
-            // clear the input fields
+            //4. clear the input fields
             UiCtrl.clearFields();
 
-            // Update the budget after calculations
+            //5. Update the budget after calculations
             updateBudget();
+
+            //6.  Update the % after calculations
+            updatePercentages();
          }
         
         
@@ -263,6 +320,9 @@ let appControla = (function(budgetCtrl,UiCtrl){
             UiCtrl.deleteItemList(itemID);
             // Then Upadte and show the Budget
             updateBudget();
+
+            // Update the % after calculations
+            updatePercentages()
         }
     }
 
