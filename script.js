@@ -173,7 +173,7 @@ let UiControla = (function(){
         return (type=== "exp" ? "-" : "+")+ " " + integer +"."+ decimal
     };
 
-    nodeListForEach = function (list, callback){
+   let nodeListForEach = function (list, callback){
         for( i = 0; i < list.length; i++){
             callback(list[i], i)
         }
