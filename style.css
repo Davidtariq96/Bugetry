@@ -15,7 +15,7 @@ body{
 }
 
 .top{
-    background-image:linear-gradient(rgba(62,20,20,0.4),rgba(62, 20 , 20 , 0.4)), url(./background1.jpg);
+    background-image:linear-gradient(rgba(62,10,10,0.4),rgba(62, 10 , 10 , 0.4)), url(./background1.jpg);
     background-repeat: no-repeat;
     background-position: center;
     color: #fff;
@@ -24,7 +24,7 @@ body{
     
 }
 .budget-title{
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .budget-value{
@@ -88,16 +88,25 @@ input,select{
     border-radius: 2px 2px 2px 2px;
 }
 .add-description:focus{
-    outline:2px solid var(--income);
+    outline: 2px solid var(--income);
     border-radius: 2px 2px 2px 2px ;
 }
 .value{
     width: 100px;
     margin-left: 0.5rem;
 }
+.value:focus{
+    outline: 2px solid var(--income);
+}
 select{
     margin-right: 0.4rem;
+    height: 40px;
 }
+select:focus{
+    outline: 2px solid var(--income);
+}
+.red{color: #ff5049 !important;}
+.red-focus:focus{outline:2px solid #ff5049}
 
 .btn-add,.del{
     background: transparent;
@@ -106,7 +115,7 @@ select{
 }
 .checkmark{
     font-size: 30px;
-    color: var(--expense);
+    color: var(--income);
     position: absolute;
     top: 8px;
     margin-left: 1rem;
@@ -209,6 +218,13 @@ select{
         margin-left: -0.5rem;
     }
     .checkmark{
-        top: 55px;
+        top: 60px;
+    }
+    .value{
+        margin-top: 1rem;
+        margin-right: 2rem;
+    }
+    .expense-heroText-1,.income-heroText-1{
+       width: 366px; 
     }
 }

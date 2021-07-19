@@ -150,8 +150,35 @@ let UiControla = (function(){
         expenseLabel : '.expenses-value',
         percentageLabel : '.expenses-percentage',
         container: '.flex-items',
-        expensePerLabel : '.expenses-percentage-1'
-    }
+        expensePerLabel : '.expenses-percentage-1',
+        dateLabel: ".budget-month",
+        checkmarkLabel: ".checkmark"
+    };
+
+    let formatNumber = function (num, type){
+        let splitNum , integer, decimal;
+        num = Math.abs(num);
+        num = num.toFixed(2);
+
+        // Using 1230 as example -> + 1,230 or - 1,230 is the desired output
+        splitNum = num.split('.');
+        integer = splitNum[0];
+
+        if(integer.length > 3){
+            integer = integer.substr(0, integer.length - 3) + ',' + integer.substr(integer.length - 3, 3);
+        }
+
+        decimal = splitNum[1];
+
+        return (type=== "exp" ? "-" : "+")+ " " + integer +"."+ decimal
+    };
+
+    nodeListForEach = function (list, callback){
+        for( i = 0; i < list.length; i++){
+            callback(list[i], i)
+        }
+    };
+
     return {
         getInput: function () {
             return {
@@ -174,7 +201,7 @@ let UiControla = (function(){
             // Replace HTML with actual data
             newHTML = HTML.replace('%id%',obj.id);
             newHTML = newHTML.replace('%description%', obj.description);
-            newHTML = newHTML.replace('%value%', obj.value)
+            newHTML = newHTML.replace('%value%',formatNumber (obj.value, type) )
 
 
             // Inserts it into the DOM
@@ -203,9 +230,11 @@ let UiControla = (function(){
         },
 
         displayBudget: function (objs) {
-            document.querySelector(DOMstrings.budgetLabel).textContent = objs.budget
-            document.querySelector(DOMstrings.incomeLabel).textContent = objs.totalInc
-            document.querySelector(DOMstrings.expenseLabel).textContent = objs.totalExp
+
+            objs.budget > 0 ? type = "inc" : type = "exp"
+            document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber (objs.budget, type) 
+            document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber (objs.totalInc,"inc") 
+            document.querySelector(DOMstrings.expenseLabel).textContent = formatNumber (objs.totalExp, "exp")
             
             if(objs.percentage > 0 ){
                 document.querySelector(DOMstrings.percentageLabel).textContent = objs.percentage + '%'
@@ -216,12 +245,6 @@ let UiControla = (function(){
         displayPercentages: function(percentage){
             let fields = document.querySelectorAll(DOMstrings.expensePerLabel);
 
-            nodeListForEach = function (list, callback){
-                for( i = 0; i < list.length; i++){
-                    callback(list[i], i)
-                }
-            };
-
             nodeListForEach (fields, function (current, index){
                 if(percentage [index]> 0 ){
                     current.textContent = percentage[index] + '%';
@@ -229,6 +252,30 @@ let UiControla = (function(){
                     current.textContent = "---";
                 }
             });
+        },
+
+        displayDate: function () {
+            let now, months, month, year;
+
+            months = ["Janaury", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            now = new Date();
+            year = now.getFullYear();
+            month= now.getMonth();
+            document.querySelector(DOMstrings.dateLabel).textContent = months[month] + " " + year;
+
+        },
+
+        changedTypes: function() {
+            fields = document.querySelectorAll(
+                DOMstrings.inputTypes + "," +
+                DOMstrings.inputDescrip + "," +
+                DOMstrings.inputValue);
+
+                nodeListForEach(fields, function (cur){
+                    cur.classList.toggle ('red-focus')
+                })
+                document.querySelector(DOMstrings.checkmarkLabel).classList.toggle ('red');
         },
 
         getDOMstrings: function (){
@@ -258,6 +305,8 @@ let appControla = (function(budgetCtrl,UiCtrl){
         })
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.inputTypes).addEventListener('change',UiCtrl.changedTypes);
     };
 
     let updateBudget = function () {
@@ -334,7 +383,8 @@ let appControla = (function(budgetCtrl,UiCtrl){
                 totalExp : 0,
                 percentage : -1
             });
-            console.log('application has started')
+            console.log('application has started');
+            UiCtrl.displayDate();
             setEventListeners();
         }
     }
